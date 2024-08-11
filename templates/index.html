@@ -1,0 +1,101 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Competition</title>
+</head>
+<body>
+    <h1>Welcome to the Model Competition</h1>
+    <a href="{{ url_for('upload_model') }}">Upload Your Model</a> | 
+    <a href="{{ url_for('catalog') }}">Browse Models</a>
+</body>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ESP Data Club Datathon</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Home - Sponsor Display</title>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .sponsor-img {
+                width: 120%;
+                height: 100px; /* Set a fixed height */
+                object-fit: cover; /* Ensures images cover the container */
+                border: 2px solid #ddd;
+                border-radius: 8px;
+                margin: 10px 0;
+                transition: transform 0.2s ease;
+            }
+            .sponsor-img:hover {
+                transform: scale(1.05);
+                border-color: #007bff;
+            }
+            .sponsor-container {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .sponsor-item {
+                flex: 1 1 10%;
+                margin: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        </style>
+    </head>
+
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Datathon</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('upload_model') }}">Charger votre modèle</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ url_for('catalog') }}">Catalogue des modèles</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <h1 class="text-center">Bienvenu à la page catalogue de l'ESP Data Club Datathon</h1>
+        <div class="container my-4">
+            <h1 class="text-center mb-4">Nos Sponsores</h1>
+            <div class="sponsor-container">
+                <div class="sponsor-item">
+                    <img src="{{ url_for('static', filename='images/sponsor1.png') }}" alt="Sponsor 1" class="sponsor-img">
+                </div>
+                <div class="sponsor-item">
+                    <img src="{{ url_for('static', filename='images/sponsor2.png') }}" alt="Sponsor 2" class="sponsor-img">
+                </div>
+                <div class="sponsor-item">
+                    <img src="{{ url_for('static', filename='images/sponsor3.png') }}" alt="Sponsor 3" class="sponsor-img">
+                </div>
+            </div>
+        </div>
+        <p class="text-center">
+            Participer en chargeant votre modèle machine leanrning ou en explorant et testant les modèles des autres.
+        </p>
+        <div class="text-center">
+            <a href="{{ url_for('upload_model') }}" class="btn btn-primary btn-lg">Charger un Model</a>
+            <a href="{{ url_for('catalog') }}" class="btn btn-secondary btn-lg">Voir le Catalogue</a>
+        </div>
+    </div>
+</body>
+</html>

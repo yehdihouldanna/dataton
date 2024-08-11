@@ -1,0 +1,71 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.log
+.tox/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.log
+
+# Flask specific
+instance/
+*.db
+*.sqlite3
+*.sqlite
+
+# Environment variables
+.env
+*.env
+
+# Virtual environment
+venv/
+ENV/
+env/
+venv.bak/
+env.bak/
+
+# IDEs and editors
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# MacOS
+.DS_Store
+
+# Windows
+Thumbs.db
+
+*.h5

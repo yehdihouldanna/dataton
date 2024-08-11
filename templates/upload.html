@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Model</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Model Competition</a>
+    </nav>
+
+    <div class="container form-container">
+        <h1 class="text-center">Charger Votre modèle</h1>
+        <p class="text-center"><small>
+            Vous devrais charger votre modèle, en y ajoutant un titre expressive, une description détailés de ce quelle
+            fait, et ajouter les champs que le modèle prend en entré avec leur types respectives.
+        </small></p>
+        <form action="{{ url_for('upload_model') }}" method="POST" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="model_name">Nom du modèle:</label>
+                <input type="text" name="model_name" class="form-control" required>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea name="description" class="form-control" rows="3" required></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="model_file">Charger le modèle (*.h5):</label>
+                <input type="file" name="model_file" class="form-control-file" required>
+            </div>
+
+            <h5>Configurer les champs d'entré à votre modèle</h5>
+            <div class="row d-flex justify-content-between">
+
+                <div class="form-group">
+                    <label for="field-name">Field Name:</label>
+                    <input type="text" id="field-name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="field-type">Field Type:</label>
+                    <select id="field-type" class="form-control">
+                        <option value="number">Number</option>
+                        <option value="text">Text</option>
+                        <option value="select">Select</option>
+                    </select>
+                </div>
+
+                 <!-- Options input field, hidden by default -->
+                <div class="form-group" id="category-group" style="display: none;">
+                    <label for="field-category">Ajouter option</label>
+                    <input type="text" id="field-category-input" class="form-control">
+                    <button type="button" class="btn btn-info mt-2" id="add-option">Add Option</button>
+                    <div id="category-container" class="mt-2"></div>
+                </div>
+
+                <button type="button" class="btn btn-info btn-lg" onclick="addField()">Add Field</button>
+            </div>
+
+
+            <div id="form-builder" class="mt-3"></div>
+            <input type="hidden" id="input_fields" name="input_fields" value="[]">
+            <button type="submit" class="btn btn-success">Upload Model</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('field-type').addEventListener('change', function() {
+            var fieldType = this.value;
+            var categoryGroup = document.getElementById('category-group');
+            if (fieldType === 'Categorical') {
+                categoryGroup.style.display = 'block';
+            } else {
+                categoryGroup.style.display = 'none';
+            }
+        });
+
+        document.getElementById('add-option').addEventListener('click', function () {
+            var input = document.getElementById('field-category-input');
+            var categoryContainer = document.getElementById('category-container');
+            var optionValue = input.value.trim();
+
+            if (optionValue) {
+                var optionSpan = document.createElement('span');
+                optionSpan.className = 'badge badge-primary mr-2';
+                optionSpan.innerText = optionValue;
+                categoryContainer.appendChild(optionSpan);
+                input.value = '';
+            }
+        });
+
+        function addField() {
+            var fieldName = document.getElementById('field-name').value.trim();
+            var fieldType = document.getElementById('field-type').value;
+            var categoryContainer = document.getElementById('category-container');
+            var formBuilder = document.getElementById('form-builder');
+
+            if (fieldName === '') {
+                alert('Field name cannot be empty!');
+                return;
+            }
+
+            var inputFields = JSON.parse(document.getElementById('input_fields').value);
+            var field = {
+                name: fieldName,
+                type: fieldType,
+                options: []
+            };
+
+            if (fieldType === 'Categorical') {
+                var optionSpans = categoryContainer.getElementsByTagName('span');
+                for (var i = 0; i < optionSpans.length; i++) {
+                    field.options.push(optionSpans[i].innerText);
+                }
+            }
+
+            inputFields.push(field);
+            document.getElementById('input_fields').value = JSON.stringify(inputFields);
+
+            var fieldDiv = document.createElement('div');
+            fieldDiv.className = 'form-group';
+
+            var label = document.createElement('label');
+            label.innerText = fieldName;
+            fieldDiv.appendChild(label);
+
+            if (fieldType === 'numerical') {
+                var input = document.createElement('input');
+                input.type = 'number';
+                input.className = 'form-control';
+                input.placeholder = fieldName;
+                fieldDiv.appendChild(input);
+            } else if (fieldType === 'text') {
+                var input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'form-control';
+                input.placeholder = fieldName;
+                fieldDiv.appendChild(input);
+            } else if (fieldType === 'Categorical') {
+                var select = document.createElement('select');
+                select.className = 'form-control';
+
+                field.options.forEach(function (option) {
+                    var optionElement = document.createElement('option');
+                    optionElement.value = option;
+                    optionElement.innerText = option;
+                    select.appendChild(optionElement);
+                });
+
+                fieldDiv.appendChild(select);
+            }
+
+            formBuilder.appendChild(fieldDiv);
+
+            document.getElementById('field-name').value = '';
+            document.getElementById('field-type').value = 'numerical';
+            categoryContainer.innerHTML = '';
+            document.getElementById('category-group').style.display = 'none';
+        }
+    </script>
+</body>
+
+</html>
